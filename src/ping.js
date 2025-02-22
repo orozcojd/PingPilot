@@ -32,6 +32,7 @@ function setTargetIP(ip) {
  */
 async function refreshConnection() {
     try {
+        targetIP = getTargetIP();
         const res = await ping.promise.probe(targetIP, { timeout: 60 * 1000 });
         const latency = res.alive ? parseFloat(res.time) : null;
         const status = determineStatus(res.alive, latency);

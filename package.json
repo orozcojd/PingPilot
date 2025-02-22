@@ -1,6 +1,6 @@
 {
-  "name": "ping-pilot",
-  "productName": "PingPilot",
+  "name": "latency-monitor",
+  "productName": "LatencyMonitor",
   "version": "1.0.0",
   "description": "A lightweight Electron app that monitors network connectivity by pinging a target IP, displaying a color-coded status indicator with tray integration and refresh functionality.",
   "main": ".webpack/main",
@@ -15,7 +15,8 @@
     "network",
     "connectivity",
     "monitoring",
-    "ping"
+    "ping",
+    "latency"
   ],
   "author": "NetApps",
   "license": "MIT",
