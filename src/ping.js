@@ -1,10 +1,29 @@
 // src/ping.js
+const { app } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
 const ping = require('ping');
 const { determineStatus } = require('./utils');
 const { updateTrayIcon } = require('./trayUpdater');
 
 let targetIP = "8.8.8.8";
+const userDataPath = app.getPath('userData');
+const configPath = path.join(userDataPath, 'config.json');
 
+function getTargetIP() {
+    try {
+        const data = fs.readFileSync(configPath);
+        return JSON.parse(data).targetIP || '8.8.8.8';
+    } catch (err) {
+        return '8.8.8.8';
+    }
+}
+// Function to save IP to config file.
+function setTargetIP(ip) {
+    const data = { targetIP: ip };
+    fs.writeFileSync(configPath, JSON.stringify(data));
+}
 /**
  * Refreshes the network connection by pinging the target IP,
  * updates the tray icon, and sends status updates via IPC.
@@ -35,21 +54,6 @@ async function refreshConnection() {
         }
         return { alive: false, latency: null };
     }
-}
-
-/**
- * Updates the target IP and triggers an immediate connection refresh.
- */
-function setTargetIP(ip) {
-    targetIP = ip;
-    refreshConnection();
-}
-
-/**
- * Returns the current target IP.
- */
-function getTargetIP() {
-    return targetIP;
 }
 
 module.exports = { refreshConnection, setTargetIP, getTargetIP };

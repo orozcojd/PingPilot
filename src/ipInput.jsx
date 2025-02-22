@@ -1,7 +1,7 @@
 // src/ipInput.jsx
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-
+import './ipInput.css';
 const IPInput = () => {
     const [ip, setIp] = useState('');
 
@@ -23,8 +23,9 @@ const IPInput = () => {
     };
 
     return (
-        <div style={{ padding: '10px', fontFamily: 'sans-serif', backgroundColor: '#f7e8d0' }}>
+        <div className="no-scrollbar ip-input" style={{ fontFamily: 'sans-serif' }}>
             <input
+                className='no-drag'
                 type="text"
                 value={ip}
                 onChange={(e) => setIp(e.target.value)}
@@ -38,6 +39,7 @@ const IPInput = () => {
                 Cancel
             </button>
         </div>
+
     );
 };
 

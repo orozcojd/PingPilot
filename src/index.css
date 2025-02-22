@@ -103,3 +103,16 @@ button * {
   width: 24px;
   height: 24px;
 }
+
+.ip-input {
+  overflow: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.ip-input::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}

@@ -46,6 +46,10 @@ function openIPInputWindow() {
         height: 100,
         resizable: false,
         frame: false,
+        transparent: false,
+        fullscreenable: false,
+        maximizable: false,
+        alwaysOnTop: true,
         alwaysOnTop: true,
         webPreferences: {
             preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, // using the same preload here

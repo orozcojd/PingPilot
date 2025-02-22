@@ -11,7 +11,12 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": ["network","connectivity", "monitoring", "ping"],
+  "keywords": [
+    "network",
+    "connectivity",
+    "monitoring",
+    "ping"
+  ],
   "author": "NetApps",
   "license": "MIT",
   "devDependencies": {
