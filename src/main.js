@@ -1,8 +1,10 @@
 // src/main.js
 const { app, BrowserWindow, Menu } = require('electron');
+
 const { createMainWindow } = require('./windows');
 const { createTray } = require('./tray');
 const { setupIPC } = require('./ipc');
+const { checkLogSizeAndRotate, log } = require('./logger');
 
 app.whenReady().then(() => {
     Menu.setApplicationMenu(null);
@@ -16,6 +18,9 @@ app.whenReady().then(() => {
 
     // Setup all IPC channels.
     setupIPC();
+
+    // Check the log file size and rotate if needed.
+    checkLogSizeAndRotate();
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {

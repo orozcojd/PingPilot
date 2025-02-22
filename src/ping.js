@@ -6,6 +6,7 @@ const fs = require('fs');
 const ping = require('ping');
 const { determineStatus } = require('./utils');
 const { updateTrayIcon } = require('./trayUpdater');
+const { log } = require('./logger'); // import our logger
 
 let targetIP = "8.8.8.8";
 const userDataPath = app.getPath('userData');
@@ -22,6 +23,7 @@ function getTargetIP() {
 // Function to save IP to config file.
 function setTargetIP(ip) {
     const data = { targetIP: ip };
+    log.info(`Target IP updated to: ${ip}`);
     fs.writeFileSync(configPath, JSON.stringify(data));
 }
 /**
@@ -35,6 +37,7 @@ async function refreshConnection() {
         const status = determineStatus(res.alive, latency);
         updateTrayIcon(status);
 
+        log.info(`Ping update: targetIP=${targetIP}, alive=${res.alive}, latency=${latency}, status=${status}`);
         if (global.mainWindow && global.mainWindow.webContents) {
             global.mainWindow.webContents.send('connection-status-update', {
                 alive: res.alive,
@@ -45,6 +48,7 @@ async function refreshConnection() {
         return { alive: res.alive, latency };
     } catch (error) {
         updateTrayIcon('red');
+        log.error(`Ping error: targetIP=${targetIP}, error=${error.message}`);
         if (global.mainWindow && global.mainWindow.webContents) {
             global.mainWindow.webContents.send('connection-status-update', {
                 alive: false,
