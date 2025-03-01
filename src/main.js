@@ -6,6 +6,15 @@ const { createTray } = require('./tray');
 const { setupIPC } = require('./ipc');
 const { checkLogSizeAndRotate, log } = require('./logger');
 
+// Global error handlers:
+process.on('uncaughtException', (err) => {
+    log.error('Uncaught Exception:', err);
+  });
+  
+  process.on('unhandledRejection', (reason, promise) => {
+    log.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+
 app.whenReady().then(() => {
     Menu.setApplicationMenu(null);
 

@@ -96,7 +96,11 @@ button * {
   padding: 0;
   cursor: pointer;
   -webkit-app-region: no-drag;
-  /* Ensure button is clickable if entire window is draggable */
+  transition: transform 0.1s ease;
+}
+
+.refresh-icon:active {
+  transform: scale(0.9);
 }
 
 .refresh-icon svg {

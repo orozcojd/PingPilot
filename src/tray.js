@@ -18,7 +18,9 @@ function downloadLogs() {
 
     fs.copyFile(logFile, destination, (err) => {
         if (err) {
-            console.error('Error copying log file:', err);
+            const msg = `Error copying log file: ${err}`;
+            log.error(msg)
+            console.error(msg);
             dialog.showErrorBox('Error', 'Could not copy log file to Downloads folder.');
         } else {
             dialog.showMessageBox({ message: `Logs copied to ${destination}` });

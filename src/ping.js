@@ -8,15 +8,22 @@ const { determineStatus } = require('./utils');
 const { updateTrayIcon } = require('./trayUpdater');
 const { log } = require('./logger'); // import our logger
 
-let targetIP = "8.8.8.8";
+// let targetIP = "8.8.8.8";
 const userDataPath = app.getPath('userData');
 const configPath = path.join(userDataPath, 'config.json');
 
 function getTargetIP() {
+    // If config file doesn't exist, create it with default value.
+    if (!fs.existsSync(configPath)) {
+      const defaultData = { targetIP: '8.8.8.8' };
+      fs.writeFileSync(configPath, JSON.stringify(defaultData));
+      return defaultData.targetIP;
+    }
     try {
         const data = fs.readFileSync(configPath);
         return JSON.parse(data).targetIP || '8.8.8.8';
     } catch (err) {
+        log.error(err.message);
         return '8.8.8.8';
     }
 }
@@ -31,9 +38,10 @@ function setTargetIP(ip) {
  * updates the tray icon, and sends status updates via IPC.
  */
 async function refreshConnection() {
+    let targetIP = "8.8.8.8";
     try {
         targetIP = getTargetIP();
-        const res = await ping.promise.probe(targetIP, { timeout: 60 * 1000 });
+        const res = await ping.promise.probe(targetIP, { timeout: 30 * 1000 });
         const latency = res.alive ? parseFloat(res.time) : null;
         const status = determineStatus(res.alive, latency);
         updateTrayIcon(status);
